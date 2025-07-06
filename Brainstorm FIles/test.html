@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tiled Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Playfair Display', serif;
+      background: #f1f1f1;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .collage {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .collage img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .collage img:hover {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Our Memories ❤️</h1>
+
+  <div class="collage">
+    <!-- Replace with your 32 images -->
+    <img src="images/photo1.jpeg" alt="Photo 1">
+    <img src="images/photo2.jpeg" alt="Photo 2">
+    <img src="images/photo3.jpeg" alt="Photo 3">
+    <img src="images/photo4.jpeg" alt="Photo 4">
+    <img src="images/photo5.jpeg" alt="Photo 5">
+    <img src="images/photo6.jpeg" alt="Photo 6">
+    <img src="images/photo7.jpeg" alt="Photo 7">
+    <img src="images/photo8.jpeg" alt="Photo 8">
+    <img src="images/photo9.jpeg" alt="Photo 9">
+    <img src="images/photo10.jpeg" alt="Photo 10">
+    <img src="images/photo11.jpeg" alt="Photo 11">
+    <img src="images/photo12.jpeg" alt="Photo 12">
+    <img src="images/photo13.jpeg" alt="Photo 13">
+    <img src="images/photo14.jpeg" alt="Photo 14">
+    <img src="images/photo15.jpeg" alt="Photo 15">
+    <img src="images/photo16.jpeg" alt="Photo 16">
+    <img src="images/photo17.jpeg" alt="Photo 17">
+    <img src="images/photo18.jpeg" alt="Photo 18">
+    <img src="images/photo19.jpeg" alt="Photo 19">
+    <img src="images/photo20.jpeg" alt="Photo 20">
+    <img src="images/photo21.jpeg" alt="Photo 21">
+    <img src="images/photo22.jpeg" alt="Photo 22">
+    <img src="images/photo23.jpeg" alt="Photo 23">
+    <img src="images/photo24.jpeg" alt="Photo 24">
+    <img src="images/photo25.jpeg" alt="Photo 25">
+    <img src="images/photo26.jpeg" alt="Photo 26">
+    <img src="images/photo27.jpeg" alt="Photo 27">
+    <img src="images/photo28.jpeg" alt="Photo 28">
+    <img src="images/photo29.jpeg" alt="Photo 29">
+    <img src="images/photo30.jpeg" alt="Photo 30">
+    <img src="images/photo31.jpeg" alt="Photo 31">
+    <img src="images/photo32.jpeg" alt="Photo 32">
+  </div>
+
+</body>
+</html>
