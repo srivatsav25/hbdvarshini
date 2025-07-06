@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Journey</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    .hidden {
+      display: none;
+    }
+
+    body.no-scroll {
+      overflow: hidden;
+    }
+
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .popup.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .popup-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      font-size: 1.5rem;
+      max-width: 90%;
+      position: relative;
+    }
+
+    .popup-content input {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-top: 1rem;
+      width: 80%;
+      max-width: 300px;
+    }
+
+    .popup-content button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #222;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .popup-content button:hover {
+      background-color: #444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Playfair Display', serif;
+      color: #111;
+      background: linear-gradient(to top, #8ecae6, #219ebc);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .sky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: url('') repeat-x;
+      z-index: -3;
+      animation: scrollClouds 60s linear infinite;
+    }
+
+    @keyframes scrollClouds {
+      0% { background-position-x: 0; }
+      100% { background-position-x: -10000px; }
+    }
+
+    .ground {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      background: url('images/meadow.png') repeat-x;
+      background-size: cover;
+      z-index: 2;
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 2rem;
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .title {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .caption {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      opacity: 0.7;
+    }
+
+    .image-placeholder {
+      width: 80%;
+      max-width: 700px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin: 1rem 0;
+      object-fit: cover;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .birthday-message {
+      font-size: 2rem;
+      text-align: center;
+      max-width: 800px;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+
+    .typing-box {
+      font-size: 1.3rem;
+      font-family: 'Playfair Display', serif;
+      white-space: pre-wrap;
+      border-right: 2px solid #111;
+      width: fit-content;
+      padding: 1rem;
+      animation: blink 1s step-end infinite;
+      margin: 0 auto;
+      text-align: center;
+      display: block;
+    }
+
+    @keyframes blink {
+      50% {
+        border-color: transparent;
+      }
+    }
+
+    .collage {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.collage img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.collage img:hover {
+  transform: scale(1.03);
+}
+
+    @media (max-width: 768px) {
+      .collage img {
+        width: calc(50% - 1rem);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .collage img {
+        width: 100%;
+      }
+    }
+
+
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      display: none;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      padding: 0.3rem 0.7rem;
+    }
+
+    @media (max-width: 480px) {
+      .lightbox-close {
+        top: 10px;
+        right: 15px;
+      }
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="sky"></div>
+  <div class="ground"></div>
+  <section class="fade-in">
+    <div class="title">Hi Varshini!❤️</div>
+    <div id="typewriter" class="typing-box caption"></div>
+  </section>
+
+  <div class="collage">
+    <!-- Replace with your 32 images -->
+    <img src="images/photo1.jpeg" alt="Photo 1" onclick="openLightbox('images/photo1.jpeg')">
+    <img src="images/photo2.jpeg" alt="Photo 2" onclick="openLightbox('images/photo2.jpeg')">
+    <img src="images/photo3.jpeg" alt="Photo 3" onclick="openLightbox('images/photo3.jpeg')">
+    <img src="images/photo4.jpeg" alt="Photo 4" onclick="openLightbox('images/photo4.jpeg')">
+    <img src="images/photo5.jpeg" alt="Photo 5" onclick="openLightbox('images/photo5.jpeg')">
+    <img src="images/photo6.jpeg" alt="Photo 6" onclick="openLightbox('images/photo6.jpeg')">
+    <img src="images/photo7.jpeg" alt="Photo 7" onclick="openLightbox('images/photo7.jpeg')">
+    <img src="images/photo8.jpeg" alt="Photo 8" onclick="openLightbox('images/photo8.jpeg')">
+    <img src="images/photo9.jpeg" alt="Photo 9" onclick="openLightbox('images/photo9.jpeg')">
+    <img src="images/photo10.jpeg" alt="Photo 10" onclick="openLightbox('images/photo10.jpeg')">
+    <img src="images/photo11.jpeg" alt="Photo 11" onclick="openLightbox('images/photo11.jpeg')">
+    <img src="images/photo12.jpeg" alt="Photo 12" onclick="openLightbox('images/photo12.jpeg')">
+    <img src="images/photo13.jpeg" alt="Photo 13" onclick="openLightbox('images/photo13.jpeg')">
+    <img src="images/photo14.jpeg" alt="Photo 14" onclick="openLightbox('images/photo14.jpeg')">
+    <img src="images/photo15.jpeg" alt="Photo 15" onclick="openLightbox('images/photo15.jpeg')">
+    <img src="images/photo16.jpeg" alt="Photo 16" onclick="openLightbox('images/photo16.jpeg')">
+    <img src="images/photo17.jpeg" alt="Photo 17" onclick="openLightbox('images/photo17.jpeg')">
+    <img src="images/photo18.jpeg" alt="Photo 18" onclick="openLightbox('images/photo18.jpeg')">
+    <img src="images/photo19.jpeg" alt="Photo 19" onclick="openLightbox('images/photo19.jpeg')">
+    <img src="images/photo20.jpeg" alt="Photo 20" onclick="openLightbox('images/photo20.jpeg')">
+    <img src="images/photo21.jpeg" alt="Photo 21" onclick="openLightbox('images/photo21.jpeg')">
+    <img src="images/photo22.jpeg" alt="Photo 22" onclick="openLightbox('images/photo22.jpeg')">
+    <img src="images/photo23.jpeg" alt="Photo 23" onclick="openLightbox('images/photo23.jpeg')">
+    <img src="images/photo24.jpeg" alt="Photo 24" onclick="openLightbox('images/photo24.jpeg')">
+    <img src="images/photo25.jpeg" alt="Photo 25" onclick="openLightbox('images/photo25.jpeg')">
+    <img src="images/photo26.jpeg" alt="Photo 26" onclick="openLightbox('images/photo26.jpeg')">
+    <img src="images/photo27.jpeg" alt="Photo 27" onclick="openLightbox('images/photo27.jpeg')">
+    <img src="images/photo28.jpeg" alt="Photo 28" onclick="openLightbox('images/photo28.jpeg')">
+    <img src="images/photo29.jpeg" alt="Photo 29" onclick="openLightbox('images/photo29.jpeg')">
+    <img src="images/photo30.jpeg" alt="Photo 30" onclick="openLightbox('images/photo30.jpeg')">
+    <img src="images/photo31.jpeg" alt="Photo 31" onclick="openLightbox('images/photo31.jpeg')">
+    <img src="images/photo32.jpeg" alt="Photo 32" onclick="openLightbox('images/photo32.jpeg')">
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+    <img id="lightbox-img" src="" alt="Large View">
+  </div>
+
+
+
+  <!-- Popup 1 -->
+  <!-- <div id="popup" class="popup hidden">
+    <div class="popup-content">
+      <p>Before you move! Are you who I think it is?</p>
+      <button onclick="handleConfirmation()">Yes, it’s me!</button>
+      <button onclick="dismissPopup()">Nope!😶‍🌫️</button>
+    </div>
+  </div> -->
+
+  <!-- Popup 2 -->
+  <!-- <div id="code-popup" class="popup hidden">
+    <div class="popup-content">
+      <p>Enter the secret code to continue 💌</p>
+      <input type="text" id="secret-code" placeholder="Enter code..." />
+      <div style="margin-top: 1rem;">
+        <button onclick="verifyCode()">Submit</button>
+      </div>
+      <p id="error-msg" style="color: red; display: none; margin-top: 0.5rem;">Incorrect code. Try again.</p>
+    </div>
+  </div> -->
+
+
+
+  <script>
+
+function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      lightbox.style.display = 'flex';
+    }
+
+    function closeLightbox(e) {
+      if (e.target.id === 'lightbox' || e.target.className === 'lightbox-close') {
+        document.getElementById('lightbox').style.display = 'none';
+      }
+    }
+
+    window.addEventListener('keydown', e => {
+      if (e.key === "Escape") {
+        document.getElementById('lightbox').style.display = 'none';
+      }
+    });
+
+    // Typing effect
+    function typeText(text, elementId, speed = 50) {
+  const element = document.getElementById(elementId);
+  let i = 0;
+  let html = '';
+
+  function type() {
+    if (i < text.length) {
+      if (text[i] === '<') {
+        // Read full tag (like <br>)
+        const tagEnd = text.indexOf('>', i);
+        if (tagEnd !== -1) {
+          html += text.substring(i, tagEnd + 1);
+          i = tagEnd + 1;
+        } else {
+          html += text[i];
+          i++;
+        }
+      } else {
+        html += text[i];
+        i++;
+      }
+
+      element.innerHTML = html;
+      setTimeout(type, speed);
+    }
+  }
+
+  type();
+}
+
+
+    // Start typing and confetti on load
+    window.addEventListener('load', () => {
+      typeText("Its your birthday! And I wanted to do something special for you. <br>So I crafted a scrapbook. <br>Here! Have a look at us having our time together😇✨", "typewriter", 60);
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+    });
+
+    // Show popup 2 after popup 1 confirmation
+    function handleConfirmation() {
+      document.getElementById('popup').classList.remove('visible');
+      document.getElementById('code-popup').classList.remove('hidden');
+      document.getElementById('code-popup').classList.add('visible');
+    }
+
+    // Secret code check
+    function verifyCode() {
+    const input = document.getElementById('secret-code').value.trim().toLowerCase();
+    const correctCode = "07072001";
+    const errorMsg = document.getElementById('error-msg');
+
+    if (input === correctCode) {
+        document.getElementById('code-popup').classList.remove('visible');
+        document.body.classList.remove('no-scroll');
+
+        // 🎯 Redirect to another page after short delay (optional)
+        setTimeout(() => {
+        window.location.href = "surprise.html"; // <-- change this to your target page
+        }, 1000); // 1 second delay for smoothness
+    } else {
+        errorMsg.style.display = 'block';
+    }
+    }
+
+    // Create image sections and birthday message
+    (function createSections() {
+    //   for (let i = 1; i <= 32; i++) {
+    //     const sec = document.createElement('section');
+    //     sec.className = 'fade-in';
+
+    //     const img = document.createElement('img');
+    //     img.className = 'image-placeholder';
+    //     img.src = `images/photo${i}.jpeg`; // path to your image
+    //     img.alt = `Photo ${i}`;
+
+    //     const caption = document.createElement('div');
+    //     caption.className = 'caption';
+    //     caption.textContent = `Caption for photo ${i}`;
+
+    //     sec.appendChild(img);
+    //     sec.appendChild(caption);
+    //     document.body.appendChild(sec);
+    //   }
+
+      const messageSection = document.createElement('section');
+      messageSection.className = 'fade-in';
+
+      const message = document.createElement('div');
+      message.className = 'birthday-message';
+      message.innerHTML = `❤️ Happy Birthday. Here's to us, always.<br /><br />~ Yours,<br />&nbsp&nbsp Shree😇`;
+
+      messageSection.appendChild(message);
+      document.body.appendChild(messageSection);
+    })();
+
+    // Scroll-triggered popup
+    let popupShown = false;
+    let hasScrolledManually = false;
+
+    function scrollTrigger() {
+      if (!popupShown && hasScrolledManually) {
+        popupShown = true;
+        const popup = document.getElementById('popup');
+        popup.classList.remove('hidden');
+        popup.classList.add('visible');
+        document.body.classList.add('no-scroll');
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      hasScrolledManually = true;
+      scrollTrigger();
+    });
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.3
+    });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    function dismissPopup() {
+  const popup = document.getElementById('popup');
+  popup.classList.remove('visible');
+  popup.classList.add('hidden');
+  document.body.classList.remove('no-scroll');
+}
+  </script>
+
+  <!-- Confetti JS -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+
+<!-- Birthday wish count -->
+<div id="wish-count" style="text-align: center; margin-top: 4rem; font-size: 1.3rem; color: #333;">
+    🥳 People wished you a Happy Birthday <span id="count-number">0</span> times here!<br><br>
+  </div>
+  
+  <script>
+    // Get count from localStorage
+    const count = parseInt(localStorage.getItem('wishCount')) || 0;
+    document.getElementById('count-number').textContent = count;
+  </script>
+</body>
+</html>
